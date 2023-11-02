@@ -8,6 +8,7 @@ import {CalculetteActions, getTestScheduler, jeanne, MouvementSourisActions, tit
 describe('10 - Opérateurs transformation', () => {
 
   it('accéder à un sous-objet', () => {
+    pending('en attente de résolution');
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : un observable nous émets des instances de Personne.
       //Nous souhaitons afficher dans l'interface utilisateur uniquement leur adresse automatiquement à chaque fois qu'une nouvelle personne est émise
@@ -18,7 +19,6 @@ describe('10 - Opérateurs transformation', () => {
       //WHEN
       const adresses$ = personnes$.pipe(
         //TODO: récupérer l'adresse de l'objet émis
-        map(personne => personne.adresse)
       );
 
       //THEN
@@ -27,6 +27,8 @@ describe('10 - Opérateurs transformation', () => {
   });
 
   it('effectuer un calcul', () => {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : un observable nous émets des instances de Personne.
       //Nous souhaitons afficher dans l'interface utilisateur spécifiquement leur nom complet.
@@ -37,7 +39,6 @@ describe('10 - Opérateurs transformation', () => {
       //WHEN
       const nomsComplets$ = personnes$.pipe(
         //TODO: récupérer le nom complet de la personne
-        map(personne => personne.nom + ' ' + personne.prenom)
       );
 
       //THEN
@@ -46,6 +47,8 @@ describe('10 - Opérateurs transformation', () => {
   });
 
   it(`peut bufferiser les valeurs pour n'émettre les valeurs que toutes les X secondes`, ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : pour le marketing, nous souhaitons suivre les mouvements de la souris afin de les envoyer côté serveur pour étude statistique ultérieure
       //On ne souhaite bien sûr pas déclencher un appel serveur à chaque mouvement de souris, mais plutôt regrouper tous les mouvements sur un interval de temps
@@ -69,7 +72,6 @@ describe('10 - Opérateurs transformation', () => {
 
       const mouvementsBufferises = mouvementsSouris$.pipe(
         //TODO : Regrouper tous les mouvements par paquet de 300ms
-        bufferTime(300)
       );
 
       expectObservable(mouvementsBufferises).toBe('300ms a 299ms b 199ms (c|)', {
@@ -81,6 +83,8 @@ describe('10 - Opérateurs transformation', () => {
   })
 
   it(`accumuler une valeur - exemple de la calculatrice`, () => {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : nous souhaitons coder une calculatrice qui à partir d'une liste d'actions nous renvoie le résultat du calcul
       //Exemple :en partant de 0, si l'on applique les actions suivantes : "ajouter 1", "ajouter 5", "soustraire 2", "multiplier par 3", on obtient le résultat final : 12
@@ -99,19 +103,7 @@ describe('10 - Opérateurs transformation', () => {
       //WHEN
       const resultat$ = actions$.pipe(
         //TODO : Accumuler un nombre pour chaque action en partant de 0
-        scan((acc, action) => {
-          if(action.kind === 'ajouter')
-            return acc + action.valeur;
-          if(action.kind === 'soustraire')
-            return acc - action.valeur;
-          if(action.kind === 'multiplier')
-            return acc * action.valeur;
-          if(action.kind === 'diviser')
-            return acc / action.valeur;
-          if(action.kind === 'reset')
-            return 0;
-          return acc;
-        },0)
+       
       )
 
       //THEN

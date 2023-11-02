@@ -13,6 +13,8 @@ import {
 
 describe('40 - Opérateurs de gestion des erreurs', () => {
   it(`peut catch une exception pour renvoyer une dernière valeur`, ()=> {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Nous souhaitons suivre l'état d'une fusée lors de son démarrage
       //Nous disposons d'une API nous renvoyant l'état de la fusée au cours de son lancement.
@@ -24,9 +26,7 @@ describe('40 - Opérateurs de gestion des erreurs', () => {
 
       //WHEN
       const etatFusee$ = messagesFusee$.pipe(
-        catchError(()=>{
-          return of(EtatFusee.Détruite)
-        })
+       //TODO : catcher l'erreur et renvoyer la valeur "EtatFusee.Éteint"
       );
 
       expectObservable(etatFusee$).toBe('a----b---c---c---c--(d|)', {a:EtatFusee.Éteint, b:EtatFusee.AllumageMoteur, c:EtatFusee.Ascension, d:EtatFusee.Détruite})
@@ -35,6 +35,8 @@ describe('40 - Opérateurs de gestion des erreurs', () => {
 
 
   it(`peut relancer un observable lorsqu'une erreur a lieu`, ()=> {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, hot, expectObservable}) => {
       //Nous reprenons l'exemple des mouvements de souris que l'on souhaite sauvegarder côté serveur
       //Nous disposons à la fois :
@@ -64,7 +66,7 @@ describe('40 - Opérateurs de gestion des erreurs', () => {
 
      const logMouvementSouris$ = mouvementsSouris$.pipe(
        switchMap((mouvement)=>apiLogMouvementSouris(mouvement)),
-       retry()
+       //TODO : "relancer" l'observable source lorsqu'une erreur a lieu
      );
 
       //On s'attend à récupérer l'ID correspondant à chacun des logs de mouvements, hormis pour  d: {x: 3, y: 3} et  e: {x: 3, y: 3} qui ont crashé
@@ -87,6 +89,8 @@ describe('40 - Opérateurs de gestion des erreurs', () => {
   });
 
   it('peut gérer des erreurs sur appels serveur', ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, hot, expectObservable}) => {
       // Exemple un peu plus complexe.
       // On souhaite proposer une fonctionnalité de sauvegarde de l'état de la calculatrice.
@@ -146,11 +150,11 @@ describe('40 - Opérateurs de gestion des erreurs', () => {
             map((serverResult)=>{
               return {kind:'apiASauvegardeResultat', valeur:serverResult}
             }),
-            catchError((err)=>{
-              return of({kind:'apiNAPasSauvegardeResultat', error:err})
-            })
+            //TODO : gérer ici le crash du serveur pour renvoyer {kind:'apiNAPasSauvegardeResultat', error:erreurDuServeur}
+            //ici ?...
           );
-        })
+        }),
+        //Ou là ?... Seul un des 2 choix est le bon... pourquoi ?
       )
 
       expectObservable(sauvegarderResultatEffects$).toBe('---------------a------b----c|', {

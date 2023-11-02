@@ -13,6 +13,8 @@ import {
 
 describe('30 - Opérateurs de jointure', () => {
   it('peut déclencher un appel serveur pour chaque message reçu en entrée en parallèle', ()=> {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : un utilisateur souhaite saisir un inventaire d'un magasin. Il dispose pour cela d'un petit formulaire qui lui permet de scanner des codes barres.
       //Lorsqu'il scanne un code barre, on souhaite envoyer le code barre au serveur pour récupérer le nom du produit correspondant.
@@ -42,9 +44,8 @@ describe('30 - Opérateurs de jointure', () => {
 
       //WHEN
       const reponsesServeurs$ = scans$.pipe(
-        //TODO : pour chaque message en entrée, appeler l'API serveur pour récupérer le nom du produit et applatir les observables pour récupérer directement la réponse de l'API
         map(ean13 => recuperationCodeProduit$(ean13)),
-        mergeAll(),
+        //TODO : applatir les observables pour récupérer directement la réponse de l'API
       )
 
       //THEN
@@ -53,6 +54,8 @@ describe('30 - Opérateurs de jointure', () => {
   });
 
   it(`peut déclencher un appel serveur pour chaque message reçu en entrée l'un après l'autre`, ()=> {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : Dans un système bancaire, nous récupérons dans un flux l'ensemble des transactions effectuées par un client.
       //Nous souhaitons impacter le solde du compte du client à chaque transaction.
@@ -79,8 +82,7 @@ describe('30 - Opérateurs de jointure', () => {
       //WHEN
       const solde$ = transactions$.pipe(
         map(transaction => appliquerTransactionEtRecupererNouveauSolde$(transaction)),
-        //TODO : applatir les observables
-        concatAll(),
+        //TODO : applatir les observables pour récupérer directement la réponse de l'API
       )
 
       //THEN
@@ -89,6 +91,9 @@ describe('30 - Opérateurs de jointure', () => {
   });
 
   it(`peut déclencher un appel serveur pour chaque message reçu en entrée en omettant ceux intermédiaires`, ()=> {
+    pending('en attente de résolution');
+
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : L'exemple est un peu tordu car je n'ai pas trouvé de cas simple à expliquer.
       //Si cet exemple s'avérait trop compliqué à comprendre, passez au prochain exemple !
@@ -107,8 +112,7 @@ describe('30 - Opérateurs de jointure', () => {
       //WHEN
       const gererJingles$ = piecesTraversees$.pipe(
         map(pieceTraversee => declencherJingle(pieceTraversee)),
-        //TODO : applatir les observables
-        exhaustAll(),
+        //TODO : applatir les observables pour récupérer directement la réponse de l'API
       )
 
       //THEN
@@ -117,6 +121,8 @@ describe('30 - Opérateurs de jointure', () => {
   });
 
   it(`peut déclencher un appel serveur pour chaque message reçu en entrée en redéclenchant un nouvel appel si un appel est déjà en cours`, ()=> {
+    pending('en attente de résolution');
+
       getTestScheduler().run(({cold, expectObservable}) => {
         //Scénario : nous souhaitons offrir à l'utilisateur un champs "autocomplete". C'est à dire qu'au fur et à mesure de la saisie du texte, nous lui proposons des suggestions de mots
         //La liste des suggestions est déterminée côté serveur et prends un peu de temps
@@ -139,7 +145,6 @@ describe('30 - Opérateurs de jointure', () => {
         const resultatsRecherche$ = saisiesUtilisateurs$.pipe(
           map(critere => apiRecherche$(critere)),
           //TODO : applatir les observables
-          switchAll(),
         )
 
         //THEN
@@ -155,6 +160,8 @@ describe('30 - Opérateurs de jointure', () => {
     });
 
   it(`peut injecter une valeur initiale et une valeur finale`, ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : Dans un datacenter, on souhaite suivre l'état d'un serveur parmis les valeurs "Eteint", "En cours d'allumage", "Démarré" et "En cours d'extinction" (cf. EtatOrdinateur dans exercices.helpers.ts)
       //Un petit script sur le serveur nous fourni déjà un observable qui nous indique si l'ordinateur est en cours d'allumage, démarré ou en cours d'extinction.
@@ -166,8 +173,8 @@ describe('30 - Opérateurs de jointure', () => {
       const etatViaScriptServeur$=cold<EtatOrdinateur>('----e---d-----x---|', {e:EtatOrdinateur.EnCoursDeDemarrage, d:EtatOrdinateur.Démarré, x:EtatOrdinateur.EnCoursDExtinction})
 
       const etatServeur$ = etatViaScriptServeur$.pipe(
-        startWith(EtatOrdinateur.Éteint),
-        endWith(EtatOrdinateur.Éteint)
+       //TODO : injecter au début la valeur "Eteinte"
+       //TODO : injecter à la fin la valeur "Eteinte"
       );
 
       expectObservable(etatServeur$).toBe('o---e---d-----x---(o|)', {o: EtatOrdinateur.Éteint, e:EtatOrdinateur.EnCoursDeDemarrage, d:EtatOrdinateur.Démarré, x:EtatOrdinateur.EnCoursDExtinction})

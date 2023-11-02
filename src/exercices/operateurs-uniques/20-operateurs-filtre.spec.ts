@@ -4,6 +4,8 @@ import {debounceTime, distinctUntilChanged, distinctUntilKeyChanged, filter, fir
 describe('20 - Opérateurs filtres', () => {
 
   it('peut filtrer les résultats', ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //GIVEN
       const personnes$ = cold('a--b---c|', {a: toto, b: titi, c: jeanne});
@@ -11,7 +13,6 @@ describe('20 - Opérateurs filtres', () => {
       //WHEN
       const parisiens$ = personnes$.pipe(
         //TODO: récupérer uniquement les personnes habitant dans le 75
-        filter(personne => personne.adresse.departement == 75)
       );
 
       //THEN
@@ -20,6 +21,8 @@ describe('20 - Opérateurs filtres', () => {
   })
 
   it('peut émettre les valeurs distinctes successives - cas simple', ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //nombreMailsPolling$ simule un observable qui émettrait toutes les x millisecondes le nombre de notifications non lues
       //On souhaite déclencher une petite animation sur l'icône de notification uniquement lorsque le nombre de mails non lus a changé.
@@ -39,7 +42,7 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const nombreMailsClean$ = nombreMailsPolling$.pipe(
-        distinctUntilChanged()
+        //TODO : Filtrer les éléments en sortie pour ne pas sortir deux fois de suite une même valeur
       );
 
       //THEN
@@ -48,6 +51,8 @@ describe('20 - Opérateurs filtres', () => {
   })
 
   it('peut émettre les valeurs distinctes successives - cas plus complexe', ()=>{
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : nous utilisons un composant qui permet à l'utilisateur de saisir une valeur numérique
       //Ce composant nous renvoie un observable qui émet à chaque saisie de l'utilisateur la valeur saisie
@@ -67,9 +72,8 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const valeurChampsClean$ = valeurChampsPolling$.pipe(
+        //TODO : filter les évènements pour ne pas réémettre 2 évènements possédant la même valeur
         //2 solutions sont possibles ici. Indices : KeyChanged ou une fonction de comparaison spécifique
-        distinctUntilKeyChanged('valeur'),
-        //distinctUntilChanged((a,b) => JSON.stringify(a) === JSON.stringify(b))
       );
 
       //THEN
@@ -84,6 +88,7 @@ describe('20 - Opérateurs filtres', () => {
   })
 
   it(`peut debounce une saisie utilisateur`, () => {
+    pending('en attente de résolution');
 
     getTestScheduler().run(({cold, expectObservable}) => {
       //Simule une saisie utilisateur au clavier : l'utilisateur saisie rapidement "a", "b" et "c", attends 5 secondes puis saisie rapidement "d" et "e"
@@ -102,8 +107,7 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const saisieUtilisateurDebounced$ = saisieUtilisateur$.pipe(
-
-        debounceTime(100),
+        //TODO : mettre en place un anti-rebond de 100ms
       );
 
       //THEN
@@ -116,6 +120,8 @@ describe('20 - Opérateurs filtres', () => {
   });
 
   it(`peut récupérer le premier message uniquement`, () => {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : nous utilisons un service qui nous renvoie toutes les x secondes le nombre de personnes présentes dans notre magasin
       //Nous avons besoin de récupérer le plus rapidement possible le nombre de personnes présentes pour savoir si l'on doit ouvrir une nouvelle caisse
@@ -126,7 +132,7 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const affluenceActuelle$ = affluence$.pipe(
-        first(),
+        //TODO : ne prendre que le 1er élément
       );
 
       //THEN
@@ -135,6 +141,8 @@ describe('20 - Opérateurs filtres', () => {
   })
 
   it(`peut récupérer le dernier message uniquement`, () => {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario : on dispose d'une balance qui lorsqu'on l'on monte dessus nous fournit un observable qui émet le poids jusqu'à ce que la pesée soit stable
       //On souhaite récupérer uniquement le dernier message émis par la balance, sans se soucier de toutes les mesures précédentes
@@ -144,7 +152,7 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const poidsStable$ = poids$.pipe(
-        last(),
+        //TODO : prendre uniquement le dernier élément
       );
 
       //THEN
@@ -153,6 +161,8 @@ describe('20 - Opérateurs filtres', () => {
   })
 
   it(`peut skip et take`, () => {
+    pending('en attente de résolution');
+
     getTestScheduler().run(({cold, expectObservable}) => {
       //Scénario :
       //GIVEN
@@ -160,9 +170,7 @@ describe('20 - Opérateurs filtres', () => {
 
       //WHEN
       const premierMessage$ = valeurs$.pipe(
-        //Sauter les 3 premiers messages puis prendre les 2 suivants
-        skip(3),
-        take(2),
+        //TODO : Sauter les 3 premiers messages puis prendre les 2 suivants
       );
 
       //THEN
